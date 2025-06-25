@@ -1,0 +1,348 @@
+import React, { useState, useEffect } from 'react';
+import { 
+  Home, 
+  BookOpen, 
+  Zap, 
+  Calendar, 
+  TrendingUp, 
+  User, 
+  Bell, 
+  Play, 
+  Award,
+  Brain,
+  Target,
+  Clock,
+  Star
+} from 'lucide-react';
+
+const AILearningPlatform = () => {
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [notifications, setNotifications] = useState(3);
+  const [animateProgress, setAnimateProgress] = useState(false);
+
+  useEffect(() => {
+    setAnimateProgress(true);
+  }, []);
+
+  const courses = [
+    {
+      id: 1,
+      title: "Advanced React Development",
+      description: "Master modern React patterns, hooks, and state management with real-world projects.",
+      progress: 65,
+      duration: "8 weeks",
+      level: "Advanced",
+      icon: "🚀",
+      gradient: "from-purple-500 to-pink-500"
+    },
+    {
+      id: 2,
+      title: "Machine Learning Fundamentals",
+      description: "Introduction to ML algorithms, neural networks, and AI applications.",
+      progress: 32,
+      duration: "10 weeks",
+      level: "Intermediate",
+      icon: "🤖",
+      gradient: "from-blue-500 to-cyan-500"
+    },
+    {
+      id: 3,
+      title: "Data Visualization",
+      description: "Create compelling visualizations using D3.js, Chart.js, and modern tools.",
+      progress: 90,
+      duration: "6 weeks",
+      level: "Beginner",
+      icon: "📊",
+      gradient: "from-green-500 to-teal-500"
+    },
+    {
+      id: 4,
+      title: "Cloud Architecture",
+      description: "Design scalable cloud solutions with AWS, Azure, and modern DevOps practices.",
+      progress: 15,
+      duration: "12 weeks",
+      level: "Advanced",
+      icon: "☁️",
+      gradient: "from-orange-500 to-red-500"
+    }
+  ];
+
+  const recommendations = [
+    {
+      id: 1,
+      title: "Focus on JavaScript Async/Await",
+      description: "Based on your recent quiz results, strengthening async concepts will help with React.",
+      type: "AI Suggested",
+      priority: "high"
+    },
+    {
+      id: 2,
+      title: "Try Node.js Backend Course",
+      description: "Your frontend skills are strong! Consider learning backend development.",
+      type: "AI Suggested",
+      priority: "medium"
+    },
+    {
+      id: 3,
+      title: "Practice Data Structures",
+      description: "Enhance your algorithm skills with our interactive coding challenges.",
+      type: "AI Suggested",
+      priority: "medium"
+    },
+    {
+      id: 4,
+      title: "🔥 Hot Topic: AI Ethics",
+      description: "Trending course in your learning path. Perfect timing to get ahead!",
+      type: "Trending",
+      priority: "high"
+    }
+  ];
+
+  const stats = [
+    { label: "Courses Enrolled", value: "12", trend: "+2 this month", icon: BookOpen },
+    { label: "Average Progress", value: "87%", trend: "+15% from last month", icon: TrendingUp },
+    { label: "Hours This Week", value: "24", trend: "Goal: 25 hours", icon: Clock },
+    { label: "Skill Points", value: "156", trend: "+12 today", icon: Award }
+  ];
+
+  const navItems = [
+    { id: 'dashboard', label: 'Dashboard', icon: Home },
+    { id: 'courses', label: 'My Courses', icon: BookOpen },
+    { id: 'ai', label: 'AI Recommendations', icon: Zap },
+    { id: 'schedule', label: 'Schedule', icon: Calendar },
+    { id: 'analytics', label: 'Analytics', icon: TrendingUp },
+    { id: 'profile', label: 'Profile', icon: User }
+  ];
+
+  const CourseCard = ({ course }) => (
+    <div className="group bg-white/90 backdrop-blur-xl rounded-3xl overflow-hidden border border-gray-200 hover:border-gray-300 transition-all duration-500 hover:scale-105 hover:shadow-xl cursor-pointer shadow-lg">
+      <div className={`h-48 bg-gradient-to-br ${course.gradient} relative overflow-hidden`}>
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="text-6xl filter drop-shadow-lg group-hover:scale-110 transition-transform duration-300">
+            {course.icon}
+          </span>
+        </div>
+        <div className="absolute top-4 right-4">
+          <div className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-gray-700 text-sm font-medium shadow-md">
+            {course.level}
+          </div>
+        </div>
+      </div>
+      
+      <div className="p-6">
+        <h3 className="text-xl font-bold text-gray-800 mb-2 group-hover:text-blue-600 transition-colors">
+          {course.title}
+        </h3>
+        <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+          {course.description}
+        </p>
+        
+        <div className="flex justify-between items-center mb-4 text-sm text-gray-500">
+          <span>{course.duration}</span>
+          <span className="flex items-center gap-1">
+            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+            4.8
+          </span>
+        </div>
+        
+        <div className="mb-4">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-gray-600 text-sm">Progress</span>
+            <span className="text-gray-800 font-semibold text-sm">{course.progress}%</span>
+          </div>
+          <div className="bg-gray-200 rounded-full h-2 overflow-hidden">
+            <div 
+              className={`h-full bg-gradient-to-r from-blue-500 to-purple-600 rounded-full transition-all duration-1000 ease-out ${
+                animateProgress ? `w-[${course.progress}%]` : 'w-0'
+              }`}
+              style={{ width: animateProgress ? `${course.progress}%` : '0%' }}
+            ></div>
+          </div>
+        </div>
+        
+        <button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 hover:shadow-lg hover:scale-105 flex items-center justify-center gap-2">
+          <Play className="w-4 h-4" />
+          Continue Learning
+        </button>
+      </div>
+    </div>
+  );
+
+  const StatCard = ({ stat }) => {
+    const IconComponent = stat.icon;
+    return (
+      <div className="bg-white/90 backdrop-blur-xl rounded-2xl p-6 border border-gray-200 hover:border-gray-300 transition-all duration-300 hover:scale-105 cursor-pointer group shadow-lg">
+        <div className="flex items-center justify-between mb-4">
+          <div className="bg-gradient-to-br from-blue-500 to-purple-600 p-3 rounded-xl group-hover:scale-110 transition-transform duration-300 shadow-md">
+            <IconComponent className="w-6 h-6 text-white" />
+          </div>
+          <div className="text-right">
+            <div className="text-3xl font-bold text-gray-800 mb-1">{stat.value}</div>
+          </div>
+        </div>
+        <div className="text-gray-600 text-sm mb-2">{stat.label}</div>
+        <div className="text-blue-600 text-xs font-medium">{stat.trend}</div>
+      </div>
+    );
+  };
+
+  const RecommendationCard = ({ recommendation }) => (
+    <div className={`bg-white/80 backdrop-blur-sm rounded-xl p-4 border-l-4 ${
+      recommendation.priority === 'high' ? 'border-l-red-400' : 'border-l-blue-400'
+    } hover:bg-white/90 transition-all duration-300 hover:translate-x-2 cursor-pointer group shadow-md border border-gray-200`}>
+      <div className="flex items-start justify-between mb-2">
+        <h4 className="font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">
+          {recommendation.title}
+        </h4>
+        {recommendation.priority === 'high' && (
+          <div className="animate-pulse">
+            <Target className="w-4 h-4 text-red-400" />
+          </div>
+        )}
+      </div>
+      <p className="text-gray-600 text-sm mb-3">{recommendation.description}</p>
+      <div className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+        recommendation.type === 'Trending' 
+          ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-md' 
+          : 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-md'
+      }`}>
+        {recommendation.type === 'AI Suggested' && <Brain className="w-3 h-3 mr-1" />}
+        {recommendation.type}
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
+      <div className="flex">
+        {/* Sidebar */}
+        <div className="w-80 bg-white/80 backdrop-blur-xl border-r border-gray-200 min-h-screen shadow-lg">
+          <div className="p-8">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-2 rounded-xl shadow-lg">
+                <Brain className="w-8 h-8 text-white" />
+              </div>
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                AI Learn Pro
+              </h1>
+            </div>
+            
+            <nav className="space-y-2">
+              {navItems.map((item) => {
+                const IconComponent = item.icon;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => setActiveTab(item.id)}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
+                      activeTab === item.id
+                        ? 'bg-gradient-to-r from-blue-50 to-purple-50 text-gray-800 border border-blue-200 shadow-md'
+                        : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+                    }`}
+                  >
+                    <IconComponent className="w-5 h-5" />
+                    <span className="font-medium">{item.label}</span>
+                  </button>
+                );
+              })}
+            </nav>
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <div className="flex-1 p-8">
+          {/* Header */}
+          <div className="bg-white/90 backdrop-blur-xl rounded-2xl p-6 mb-8 border border-gray-200 shadow-lg">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-3xl font-bold text-gray-800 mb-2">
+                  Welcome back, Alex! 👋
+                </h2>
+                <p className="text-gray-600 text-lg">
+                  Ready to continue your learning journey?
+                </p>
+              </div>
+              <div className="flex items-center gap-4">
+                <button 
+                  className="relative p-3 bg-gray-100 backdrop-blur-sm rounded-xl hover:bg-gray-200 transition-all duration-300 hover:scale-105 shadow-md"
+                  onClick={() => setNotifications(0)}
+                >
+                  <Bell className="w-6 h-6 text-gray-600" />
+                  {notifications > 0 && (
+                    <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center animate-pulse">
+                      {notifications}
+                    </div>
+                  )}
+                </button>
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md">
+                    A
+                  </div>
+                  <div className="text-gray-800">
+                    <div className="font-semibold">Alex Johnson</div>
+                    <div className="text-sm text-gray-600">Pro Member</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Stats Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            {stats.map((stat, index) => (
+              <StatCard key={index} stat={stat} />
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Courses Section */}
+            <div className="lg:col-span-2">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-2xl font-bold text-gray-800">Continue Learning</h3>
+                <button className="text-blue-600 hover:text-blue-700 font-medium transition-colors">
+                  View All →
+                </button>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {courses.map((course) => (
+                  <CourseCard key={course.id} course={course} />
+                ))}
+              </div>
+            </div>
+
+            {/* AI Recommendations */}
+            <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10 h-fit">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-2 rounded-lg">
+                  <Zap className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-white">AI Recommendations</h3>
+              </div>
+              <div className="space-y-4">
+                {recommendations.map((recommendation) => (
+                  <RecommendationCard key={recommendation.id} recommendation={recommendation} />
+                ))}
+              </div>
+              
+              <div className="mt-6 p-4 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl border border-purple-500/30">
+                <div className="flex items-center gap-2 mb-2">
+                  <Brain className="w-5 h-5 text-purple-400" />
+                  <span className="font-semibold text-white">AI Learning Assistant</span>
+                </div>
+                <p className="text-white/70 text-sm">
+                  Your AI tutor has identified 3 areas for improvement. Would you like a personalized study plan?
+                </p>
+                <button className="mt-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:scale-105">
+                  Get Study Plan
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AILearningPlatform;
